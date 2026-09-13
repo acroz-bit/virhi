@@ -9,6 +9,7 @@ export default function Home() {
   const scene = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [behind, setBehind] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -45,7 +46,34 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const nav = <>{links.map((label) => <a href={label === "Home" ? "#home" : `#${label.toLowerCase().replaceAll(" ", "-")}`} key={label} onClick={() => setMenuOpen(false)}>{label}</a>)}</>;
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setContactOpen(false);
+    };
+    if (typeof window !== "undefined" && (window.location.hash === "#get-in-touch" || window.location.hash === "#contact")) {
+      setContactOpen(true);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleNavClick = (label: string, e: React.MouseEvent) => {
+    setMenuOpen(false);
+    if (label === "Get in Touch") {
+      e.preventDefault();
+      setContactOpen(true);
+    }
+  };
+
+  const nav = <>{links.map((label) => (
+    <a
+      href={label === "Home" ? "#home" : label === "Get in Touch" ? "#contact" : `#${label.toLowerCase().replaceAll(" ", "-")}`}
+      key={label}
+      onClick={(e) => handleNavClick(label, e)}
+    >
+      {label}
+    </a>
+  ))}</>;
 
   return <main>
     <section className="hero-track" id="home" ref={track}>
@@ -71,8 +99,8 @@ export default function Home() {
     <section className="vrihi-intro" id="about-us">
       <div className="intro-copy" data-reveal>
         <p className="section-index">01 / THE VRIHI WAY</p>
-        <h1>Vrihi sits where <em>agriculture</em> and waste management meet.</h1>
-        <p>We take resources that are usually discarded and often burned and turn them into something a farm can actually use. Every product we make starts from the same question: how do we support a good harvest without asking the environment to foot the bill.</p>
+        <h1>Vrihi works at the meeting point of <em>agriculture</em> and <em>sustainability .</em></h1>
+        <p>— reimagining what the land leaves behind as the beginning of something, not the end of it. Because a good harvest shouldn&apos;t come at earth&apos;s expense</p>
       </div>
       <div className="intro-image" data-reveal aria-label="Rice straw collected for reuse"><div className="intro-image__plant" /></div>
       <div className="intro-note" data-reveal>That question is what pushes us toward newer agricultural practices — ones built around reducing waste&apos;s impact on the environment, not just managing it after the fact.</div>
@@ -91,7 +119,78 @@ export default function Home() {
     <section className="process-section" id="how-it-works">
       <div className="process-top" data-reveal><p className="section-index">03 / HOW IT WORKS</p><h2>Cut, soaked, pulped, pressed — <em>then back to the field.</em></h2><p>Six steps turn raw straw into field-ready mulch. Nothing here is invented — it&apos;s the same basic papermaking process, adapted for what a farm actually needs.</p></div>
       <ol className="process-list">{[["Cut", "Rice straw is collected and prepared."], ["Soaked", "The straw is softened and prepared for processing."], ["Pulped", "The material is broken down into usable pulp."], ["Pressed", "The pulp is formed into mulch."], ["Prepared", "The mulch is cleaned and made field-ready."], ["Back to the field", "The finished mulch returns to farms."]].map(([title, text], index) => <li data-reveal style={{ transitionDelay: `${index * 80}ms` }} key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
-      <div className="process-closing" id="get-in-touch" data-reveal><p>From what the field leaves behind<br />to what the next harvest needs.</p><a href="#home">Back to the beginning <b>↑</b></a></div>
+      <div className="process-closing" id="get-in-touch" data-reveal>
+        <p>From what the field leaves behind<br />to what the next harvest needs.</p>
+        <button className="contact-trigger-btn" onClick={() => setContactOpen(true)}>
+          Get in touch <b>↘</b>
+        </button>
+      </div>
     </section>
+
+    {/* Contact Modal Overlay */}
+    <div
+      className={`contact-modal-backdrop ${contactOpen ? "is-open" : ""}`}
+      onClick={(e) => { if (e.target === e.currentTarget) setContactOpen(false); }}
+      aria-hidden={!contactOpen}
+    >
+      <div className="contact-card" role="dialog" aria-modal="true" aria-labelledby="contact-heading">
+        <button
+          className="contact-close-btn"
+          onClick={() => setContactOpen(false)}
+          aria-label="Close contact modal"
+        >
+          ✕
+        </button>
+        <p className="contact-badge">04 / CONNECT WITH US</p>
+        <h2 id="contact-heading">Get in <em>Touch.</em></h2>
+        
+        <div className="contact-grid">
+          <div className="contact-item">
+            <div className="contact-icon" aria-hidden="true">📍</div>
+            <div className="contact-details">
+              <h3>Location</h3>
+              <p>Raipur, Chhattisgarh, India</p>
+            </div>
+          </div>
+
+          <div className="contact-item">
+            <div className="contact-icon" aria-hidden="true">✉️</div>
+            <div className="contact-details">
+              <h3>Email Us</h3>
+              <a href="mailto:Vrihiagri@gmail.com">Vrihiagri@gmail.com</a>
+            </div>
+          </div>
+
+          <div className="contact-item">
+            <div className="contact-icon" aria-hidden="true">🌐</div>
+            <div className="contact-details">
+              <h3>Website</h3>
+              <a href="https://virhi-eight.vercel.app/" target="_blank" rel="noopener noreferrer">
+                virhi-eight.vercel.app
+              </a>
+            </div>
+          </div>
+
+          <div className="contact-item">
+            <div className="contact-icon" aria-hidden="true">💬</div>
+            <div className="contact-details">
+              <h3>Follow Us On</h3>
+              <div className="social-links">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-chip">
+                  📷 Instagram
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-chip">
+                  📘 Facebook
+                </a>
+                <a href="https://www.linkedin.com/in/aanya-s-994497226" target="_blank" rel="noopener noreferrer" className="social-chip">
+                  💼 LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>;
 }
+

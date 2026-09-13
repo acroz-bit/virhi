@@ -46,5 +46,28 @@ a { color: inherit; text-decoration: none; }
 .process-section .process-list h3{color:#20211f}
 .process-section .process-list p{color:#67695f}
 .process-section .process-list li span{color:#aa8a2f}
-.process-section .process-closing a{color:#20211f}
-@media(max-width:760px){.advantages{padding:22px 13px 0;border-radius:20px}.advantages article:first-child{padding-left:0}}
+.process-section .process-closing a,.contact-trigger-btn{display:inline-flex;align-items:center;gap:15px;margin-top:36px;padding:0 0 8px 0;background:transparent;border:none;border-bottom:1px solid #a28a45;color:#20211f;font:700 10px/1 "Avenir Next",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:color 0.25s ease, border-color 0.25s ease;}
+.contact-trigger-btn b{color:#a98e37;font-size:17px;}
+.contact-trigger-btn:hover{color:#788666;border-color:#788666;}
+
+/* Contact Modal Dialog */
+.contact-modal-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(15, 20, 12, 0.78); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.contact-modal-backdrop.is-open { opacity: 1; pointer-events: auto; }
+.contact-card { position: relative; width: 100%; max-width: 560px; background: #1c2618; color: #f7f3e7; border: 1px solid rgba(234, 214, 124, 0.25); border-radius: 24px; padding: clamp(30px, 6vw, 44px); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); transform: translateY(20px) scale(0.96); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.contact-modal-backdrop.is-open .contact-card { transform: translateY(0) scale(1); }
+.contact-close-btn { position: absolute; top: 22px; right: 22px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #f7f3e7; font-size: 18px; display: grid; place-content: center; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; }
+.contact-close-btn:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+.contact-badge { color: #ead67c; font: 700 10px/1 "Avenir Next", Arial, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; margin: 0 0 12px; }
+.contact-card h2 { margin: 0 0 28px; font: 400 clamp(2.2rem, 4vw, 3rem)/0.96 Didot, "Bodoni 72", Georgia, serif; letter-spacing: -0.05em; color: #ffffff; }
+.contact-card h2 em { color: #ead67c; font-style: italic; }
+.contact-grid { display: grid; gap: 16px; }
+.contact-item { display: flex; align-items: flex-start; gap: 16px; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.07); transition: border-color 0.25s ease, background 0.25s ease; }
+.contact-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(234, 214, 124, 0.3); }
+.contact-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(234, 214, 124, 0.12); color: #ead67c; display: grid; place-content: center; font-size: 18px; flex-shrink: 0; }
+.contact-details h3 { margin: 0 0 4px; font: 700 11px/1.2 "Avenir Next", Arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: #bfa85a; }
+.contact-details p, .contact-details a { margin: 0; color: #f7f3e7; font: 400 15px/1.4 "Avenir Next", Arial, sans-serif; word-break: break-word; }
+.contact-details a:not(.social-chip):hover { color: #ead67c; text-decoration: underline; }
+.social-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.social-chip, a.social-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 20px; background: rgba(234, 214, 124, 0.12); border: 1px solid rgba(234, 214, 124, 0.25); color: #f7f3e7; font: 600 12px/1 "Avenir Next", Arial, sans-serif; text-decoration: none !important; transition: all 0.2s ease; }
+.social-chip:hover, a.social-chip:hover { background: #ead67c; color: #1c2618; transform: translateY(-2px); text-decoration: none !important; }
+
